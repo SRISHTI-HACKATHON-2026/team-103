@@ -770,10 +770,17 @@
       chat.scrollTop = chat.scrollHeight;
 
       try {
+        const user = JSON.parse(localStorage.getItem("user")) || {};
+        const contacts = JSON.parse(localStorage.getItem("contacts")) || [];
+
         const res = await fetch("http://localhost:5000/message", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ message: hiddenMsg })
+          body: JSON.stringify({ 
+            message: hiddenMsg,
+            userName: user.name,
+            contacts: contacts
+          })
         });
 
         const data = await res.json();
@@ -805,10 +812,17 @@
       chat.scrollTop = chat.scrollHeight;
 
       try {
+        const user = JSON.parse(localStorage.getItem("user")) || {};
+        const contacts = JSON.parse(localStorage.getItem("contacts")) || [];
+
         const res = await fetch("http://localhost:5000/message", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ message: msg })
+          body: JSON.stringify({ 
+            message: msg,
+            userName: user.name,
+            contacts: contacts
+          })
         });
 
         const data = await res.json();
@@ -842,10 +856,17 @@
       chat.scrollTop = chat.scrollHeight;
 
       try {
+        const user = JSON.parse(localStorage.getItem("user")) || {};
+        const contacts = JSON.parse(localStorage.getItem("contacts")) || [];
+
         const res = await fetch("http://localhost:5000/message", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ message: hiddenMsg })
+          body: JSON.stringify({ 
+            message: hiddenMsg,
+            userName: user.name,
+            contacts: contacts
+          })
         });
 
         const data = await res.json();
@@ -983,10 +1004,17 @@
       const hiddenMsg = `[SYSTEM_REMINDER_REQUEST] Please generate a short, friendly, and encouraging reminder for the user to: ${task}. Keep it under 2 sentences.`;
 
       try {
+        const user = JSON.parse(localStorage.getItem("user")) || {};
+        const contacts = JSON.parse(localStorage.getItem("contacts")) || [];
+
         const res = await fetch("http://localhost:5000/message", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ message: hiddenMsg })
+          body: JSON.stringify({ 
+            message: hiddenMsg,
+            userName: user.name,
+            contacts: contacts
+          })
         });
 
         const data = await res.json();
