@@ -69,7 +69,8 @@ app.post("/message", async (req, res) => {
       sendCrisisAlert(contacts, userMessage, userName);
 
       return res.json({ 
-        reply: "It sounds like you are going through an incredibly difficult time right now. Your life is valuable, and you don't have to go through this alone. Please, right now, call the National Suicide Prevention Lifeline at 988 or 1-800-273-TALK, or text HOME to 741741 to connect with a crisis counselor. Help is available 24/7." 
+        reply: "It sounds like you are going through an incredibly difficult time right now. Your life is valuable, and you don't have to go through this alone. Please, right now, call the National Suicide Prevention Lifeline at 988 or 1-800-273-TALK, or text HOME to 741741 to connect with a crisis counselor. Help is available 24/7.",
+        alertSent: true
       });
     }
 
