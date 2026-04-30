@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Care Companion</title>
   <link rel="stylesheet" href="style.css">
   <script src="https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/dist/face-api.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     .modal-overlay {
       position: fixed;
@@ -32,7 +34,9 @@
     }
 
     @keyframes modalPop {
-      to { transform: scale(1); }
+      to {
+        transform: scale(1);
+      }
     }
   </style>
 </head>
@@ -46,37 +50,74 @@
   </script>
 
   <div class="app-layout">
-    
+
     <!-- Sidebar -->
     <div id="sidebar" class="sidebar glass-panel">
       <div class="sidebar-header">
         <h2>
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path
+              d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z">
+            </path>
+          </svg>
           Care App
         </h2>
         <button class="mobile-close-btn" onclick="toggleSidebar()">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
         </button>
       </div>
 
       <div class="sidebar-nav">
         <button id="nav-chat" class="nav-btn active" onclick="showSection('chat')">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+          </svg>
           Chat
         </button>
         <button id="nav-care" class="nav-btn" onclick="showSection('care')">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+            <circle cx="9" cy="7" r="4"></circle>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+          </svg>
           CareCircle
         </button>
         <button id="nav-history" class="nav-btn" onclick="showSection('history')">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
+          </svg>
           History
+        </button>
+        <button id="nav-analytics" class="nav-btn" onclick="showSection('analytics')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="20" x2="18" y2="10"></line>
+            <line x1="12" y1="20" x2="12" y2="4"></line>
+            <line x1="6" y1="20" x2="6" y2="14"></line>
+          </svg>
+          Analytics
+        </button>
+        <button id="nav-reminders" class="nav-btn" onclick="showSection('reminders')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
+          </svg>
+          Reminders
         </button>
       </div>
 
       <div class="logout-container">
         <button class="logout-btn" onclick="logout()">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+            <polyline points="16 17 21 12 16 7"></polyline>
+            <line x1="21" y1="12" x2="9" y2="12"></line>
+          </svg>
           Log Out
         </button>
       </div>
@@ -84,65 +125,113 @@
 
     <!-- Main Content Area -->
     <div class="main-area">
-      
+
       <!-- Top Bar -->
       <div class="top-bar">
         <div class="top-bar-left">
           <button class="mobile-menu-btn" onclick="toggleSidebar()">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
           </button>
           <div class="welcome-msg" id="welcome">Welcome</div>
         </div>
 
         <div class="top-bar-right">
+          <button onclick="openSOSModal()"
+            style="background: var(--danger); color: white; border: none; padding: 6px 12px; border-radius: 8px; font-weight: bold; cursor: pointer; margin-right: 15px; box-shadow: 0 4px 6px rgba(239, 68, 68, 0.3);">
+            SOS
+          </button>
+          <button class="theme-toggle" onclick="toggleTTS()" id="ttsToggleBtn" style="margin-right: 10px;" title="Toggle Voice">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+          </button>
           <button class="theme-toggle" onclick="toggleTheme()" id="themeToggleBtn">
             <!-- SVG updated via JS -->
           </button>
-          <img id="userAvatar" src="https://ui-avatars.com/api/?name=User&background=6366f1&color=fff" class="user-avatar" alt="Avatar">
+          <img id="userAvatar" src="https://ui-avatars.com/api/?name=User&background=6366f1&color=fff"
+            class="user-avatar" alt="Avatar">
         </div>
       </div>
 
       <!-- Content Container -->
       <div class="content-container">
-        
+
         <!-- CHAT -->
         <div id="chat" class="section active">
           <div class="chat-box" id="chatBox">
             <!-- Messages go here -->
           </div>
-          
+
           <div class="emoji-quick-replies" id="emojiQuickReplies">
-             <button class="emoji-btn" onclick="sendEmojiMessage('happy', '😊')" title="Happy">😊</button>
-             <button class="emoji-btn" onclick="sendEmojiMessage('sad', '😢')" title="Sad">😢</button>
-             <button class="emoji-btn" onclick="sendEmojiMessage('angry', '😠')" title="Angry">😠</button>
-             <button class="emoji-btn" onclick="sendEmojiMessage('tired', '😫')" title="Tired">😫</button>
-             <button class="emoji-btn" onclick="sendEmojiMessage('frustrated', '😤')" title="Frustrated">😤</button>
-             <button class="emoji-btn" onclick="sendEmojiMessage('dizzy', '😵')" title="Dizzy">😵</button>
-             <button class="emoji-btn" onclick="sendEmojiMessage('excited', '🤩')" title="Excited">🤩</button>
-             <button class="emoji-btn" onclick="sendEmojiMessage('anxious', '😰')" title="Anxious">😰</button>
+            <button class="emoji-btn" onclick="sendEmojiMessage('happy', '😊')" title="Happy">😊</button>
+            <button class="emoji-btn" onclick="sendEmojiMessage('sad', '😢')" title="Sad">😢</button>
+            <button class="emoji-btn" onclick="sendEmojiMessage('angry', '😠')" title="Angry">😠</button>
+            <button class="emoji-btn" onclick="sendEmojiMessage('tired', '😫')" title="Tired">😫</button>
+            <button class="emoji-btn" onclick="sendEmojiMessage('frustrated', '😤')" title="Frustrated">😤</button>
+            <button class="emoji-btn" onclick="sendEmojiMessage('dizzy', '😵')" title="Dizzy">😵</button>
+            <button class="emoji-btn" onclick="sendEmojiMessage('excited', '🤩')" title="Excited">🤩</button>
+            <button class="emoji-btn" onclick="sendEmojiMessage('anxious', '😰')" title="Anxious">😰</button>
+          </div>
+
+          <div class="action-quick-replies"
+            style="display: flex; gap: 10px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 10px; border-bottom: 1px solid var(--glass-border);">
+            <button class="primary-btn"
+              style="font-size: 0.85em; padding: 6px 12px; white-space: nowrap; border-radius: 20px;"
+              onclick="requestContent('breathing')">🧘‍♀️ Breathing Exercise</button>
+            <button class="primary-btn"
+              style="font-size: 0.85em; padding: 6px 12px; white-space: nowrap; border-radius: 20px;"
+              onclick="requestContent('affirmation')">✨ Affirmation</button>
+            <button class="primary-btn"
+              style="font-size: 0.85em; padding: 6px 12px; white-space: nowrap; border-radius: 20px;"
+              onclick="requestContent('journal')">📓 Journal Prompt</button>
           </div>
 
           <div class="chat-input-area">
             <button class="mic-btn" id="micBtn" onclick="startDictation()" title="Click to speak">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"></path>
+                <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                <line x1="12" y1="19" x2="12" y2="23"></line>
+                <line x1="8" y1="23" x2="16" y2="23"></line>
+              </svg>
             </button>
             <button class="mic-btn" onclick="document.getElementById('imageInput').click()" title="Upload Image">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                <polyline points="21 15 16 10 5 21"></polyline>
+              </svg>
             </button>
             <button class="mic-btn" onclick="openCamera()" title="Use Camera">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+                <circle cx="12" cy="13" r="4"></circle>
+              </svg>
             </button>
             <input type="file" id="imageInput" accept="image/*" style="display: none;" onchange="previewImage(event)">
-            <input id="input" placeholder="How are you feeling today?" onkeypress="if(event.key === 'Enter') handleSend()"/>
+            <input id="input" placeholder="How are you feeling today?"
+              onkeypress="if(event.key === 'Enter') handleSend()" />
             <button class="send-btn" onclick="handleSend()">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <line x1="22" y1="2" x2="11" y2="13"></line>
+                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+              </svg>
             </button>
           </div>
           <!-- Image Preview Area -->
-          <div id="imagePreviewContainer" style="display: none; padding: 10px; margin-top: 10px; position: relative; width: fit-content;">
-              <img id="imagePreview" src="" style="max-height: 100px; border-radius: 12px; border: 1px solid var(--glass-border); display: block;">
-              <div id="detectedEmotionLabel" style="font-size: 13px; font-weight: 500; color: var(--primary-accent); margin-top: 8px;">Waiting for detection...</div>
-              <button onclick="clearImage()" style="position: absolute; top: -5px; right: -5px; background: var(--danger); color: white; border: none; border-radius: 50%; width: 22px; height: 22px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-weight: bold; box-shadow: 0 2px 5px rgba(0,0,0,0.2);">×</button>
+          <div id="imagePreviewContainer"
+            style="display: none; padding: 10px; margin-top: 10px; position: relative; width: fit-content;">
+            <img id="imagePreview" src=""
+              style="max-height: 100px; border-radius: 12px; border: 1px solid var(--glass-border); display: block;">
+            <div id="detectedEmotionLabel"
+              style="font-size: 13px; font-weight: 500; color: var(--primary-accent); margin-top: 8px;">Waiting for
+              detection...</div>
+            <button onclick="clearImage()"
+              style="position: absolute; top: -5px; right: -5px; background: var(--danger); color: white; border: none; border-radius: 50%; width: 22px; height: 22px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-weight: bold; box-shadow: 0 2px 5px rgba(0,0,0,0.2);">×</button>
           </div>
         </div>
 
@@ -152,8 +241,42 @@
             <video id="cameraVideo" autoplay playsinline style="width: 100%; border-radius: 12px;"></video>
             <div class="modal-buttons" style="margin-top: 20px; display: flex; gap: 15px; justify-content: center;">
               <button class="primary-btn" onclick="captureImage()">Capture</button>
-              <button class="logout-btn" style="border-color: var(--text-secondary); color: var(--text-secondary); height: auto; padding: 10px 20px;" onclick="closeCamera()">Cancel</button>
+              <button class="logout-btn"
+                style="border-color: var(--text-secondary); color: var(--text-secondary); height: auto; padding: 10px 20px;"
+                onclick="closeCamera()">Cancel</button>
             </div>
+          </div>
+        </div>
+
+        <!-- SOS Modal -->
+        <div id="sosModal" class="modal-overlay" style="display: none;">
+          <div class="modal-content glass-panel" style="border-top: 4px solid var(--danger);">
+            <h2 style="color: var(--danger); margin-bottom: 10px;">Emergency Help</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 20px;">You seem to be going through a very tough
+              time. Please know you are not alone.</p>
+
+            <div
+              style="background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+              <h4 style="color: var(--text-primary); margin-bottom: 5px;">Crisis Hotline</h4>
+              <p style="font-size: 1.2em; font-weight: bold; color: var(--danger);">108</p>
+              <p style="font-size: 0.9em; color: var(--text-secondary);">Available 24/7. It's free and confidential.</p>
+            </div>
+
+            <div style="text-align: left; margin-bottom: 20px;">
+              <h4 style="color: var(--text-primary); margin-bottom: 10px;">Quick Grounding Exercise:</h4>
+              <ul style="color: var(--text-secondary); font-size: 0.9em; padding-left: 20px; line-height: 1.5;">
+                <li>Name 5 things you can see around you.</li>
+                <li>Name 4 things you can feel.</li>
+                <li>Name 3 things you can hear.</li>
+                <li>Take a deep, slow breath in... and out.</li>
+              </ul>
+            </div>
+
+            <button class="primary-btn" style="width: 100%; margin-bottom: 10px;" onclick="window.open('tel:988')">Call
+              988 Now</button>
+            <button class="logout-btn"
+              style="width: 100%; border-color: var(--text-secondary); color: var(--text-secondary); height: auto; padding: 10px 20px;"
+              onclick="closeSOSModal()">I'm Okay, Close</button>
           </div>
         </div>
 
@@ -164,7 +287,7 @@
           </div>
 
           <div class="input-group">
-            <input id="contact" placeholder="Enter phone number" onkeypress="if(event.key === 'Enter') addContact()"/>
+            <input id="contact" placeholder="Enter phone number" onkeypress="if(event.key === 'Enter') addContact()" />
             <button class="primary-btn" onclick="addContact()">Add Contact</button>
           </div>
 
@@ -178,9 +301,38 @@
           <div class="section-header">
             <h3>Chat History</h3>
           </div>
-          
+
           <div id="historyBox" class="card-grid">
             <!-- History entries go here -->
+          </div>
+        </div>
+
+        <!-- ANALYTICS -->
+        <div id="analytics" class="section">
+          <div class="section-header">
+            <h3>Mood Analytics</h3>
+          </div>
+          <div class="glass-card" style="padding: 20px; text-align: center;">
+            <p style="color: var(--text-secondary); margin-bottom: 15px;">Your emotional trend over time</p>
+            <canvas id="moodChart" width="400" height="200"></canvas>
+          </div>
+        </div>
+
+        <!-- REMINDERS -->
+        <div id="reminders" class="section">
+          <div class="section-header">
+            <h3>Daily Reminders</h3>
+          </div>
+
+          <div class="input-group" style="flex-wrap: wrap; gap: 10px;">
+            <input id="reminderTask" placeholder="What should I remind you about?" style="flex: 2; min-width: 200px;" />
+            <input type="time" id="reminderTime"
+              style="flex: 1; padding: 12px; border-radius: 12px; border: 1px solid var(--glass-border); background: rgba(255, 255, 255, 0.05); color: var(--text-primary);" />
+            <button class="primary-btn" onclick="addReminder()">Add</button>
+          </div>
+
+          <div id="reminderList" class="card-grid" style="margin-top: 20px;">
+            <!-- Reminders go here -->
           </div>
         </div>
 
@@ -189,334 +341,549 @@
 
   </div> <!-- end app layout -->
 
-<script>
-  // --- THEME LOGIC ---
-  const sunIcon = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>`;
-  const moonIcon = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>`;
-  
-  function updateThemeIcon() {
-    const isDark = document.body.classList.contains('dark-theme');
-    document.getElementById('themeToggleBtn').innerHTML = isDark ? sunIcon : moonIcon;
-  }
+  <script>
+    // --- THEME LOGIC ---
+    const sunIcon = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>`;
+    const moonIcon = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>`;
 
-  function toggleTheme() {
-    document.body.classList.toggle('dark-theme');
-    const isDark = document.body.classList.contains('dark-theme');
-    localStorage.setItem('theme', isDark ? 'dark' : 'light');
-    updateThemeIcon();
-  }
-
-  // --- MOBILE SIDEBAR ---
-  function toggleSidebar() {
-    document.getElementById('sidebar').classList.toggle('open');
-  }
-
-  // --- APP LOGIC ---
-  const user = JSON.parse(localStorage.getItem("user"));
-  
-  if(user && user.name) {
-    document.getElementById("welcome").innerText = "Welcome, " + user.name.split(" ")[0];
-  }
-
-  function showSection(id) {
-    document.querySelectorAll(".section").forEach(sec => sec.classList.remove("active"));
-    document.getElementById(id).classList.add("active");
-    
-    document.querySelectorAll(".nav-btn").forEach(btn => btn.classList.remove("active"));
-    const navBtn = document.getElementById("nav-" + id);
-    if(navBtn) navBtn.classList.add("active");
-
-    // Close mobile sidebar if open
-    document.getElementById('sidebar').classList.remove('open');
-  }
-
-  // --- VOICE INPUT LOGIC ---
-  function startDictation() {
-    if (window.hasOwnProperty('webkitSpeechRecognition') || window.hasOwnProperty('SpeechRecognition')) {
-      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-      const recognition = new SpeechRecognition();
-      const micBtn = document.getElementById('micBtn');
-      const inputField = document.getElementById('input');
-
-      recognition.continuous = false;
-      recognition.interimResults = false;
-      recognition.lang = "en-US";
-      
-      recognition.onstart = function() {
-        micBtn.classList.add('listening');
-      };
-
-      recognition.onresult = function(e) {
-        inputField.value = e.results[0][0].transcript;
-        recognition.stop();
-        micBtn.classList.remove('listening');
-      };
-
-      recognition.onerror = function(e) {
-        console.error("Speech recognition error", e.error);
-        recognition.stop();
-        micBtn.classList.remove('listening');
-      };
-
-      recognition.onend = function() {
-        micBtn.classList.remove('listening');
-      };
-
-      recognition.start();
-    } else {
-      alert("Your browser does not support Speech Recognition.");
+    function updateThemeIcon() {
+      const isDark = document.body.classList.contains('dark-theme');
+      document.getElementById('themeToggleBtn').innerHTML = isDark ? sunIcon : moonIcon;
     }
-  }
 
-  // --- IMAGE HANDLING LOGIC ---
-  let selectedImage = null;
+    function toggleTheme() {
+      document.body.classList.toggle('dark-theme');
+      const isDark = document.body.classList.contains('dark-theme');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+      updateThemeIcon();
+    }
 
-  function previewImage(event) {
-    const file = event.target.files[0];
-    if (file) {
-      selectedImage = file;
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        const img = document.getElementById('imagePreview');
-        img.src = e.target.result;
-        document.getElementById('imagePreviewContainer').style.display = 'block';
-        img.onload = () => detectEmotion(img);
+    // --- TTS LOGIC ---
+    let isTTSOn = false;
+    const speakerOnIcon = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>`;
+    const speakerOffIcon = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>`;
+
+    function toggleTTS() {
+      isTTSOn = !isTTSOn;
+      document.getElementById('ttsToggleBtn').innerHTML = isTTSOn ? speakerOnIcon : speakerOffIcon;
+      if (!isTTSOn) {
+        window.speechSynthesis.cancel();
       }
-      reader.readAsDataURL(file);
     }
-  }
 
-  function clearImage() {
-    selectedImage = null;
-    document.getElementById('imageInput').value = '';
-    document.getElementById('imagePreviewContainer').style.display = 'none';
-    document.getElementById('imagePreview').src = '';
-    document.getElementById('detectedEmotionLabel').innerText = 'Waiting for detection...';
-    detectedEmotion = 'neutral';
-  }
-
-  function handleSend() {
-    if (selectedImage) {
-      const mapping = {
-        happy: "happy",
-        sad: "sad",
-        surprised: "shocked",
-        neutral: "neutral",
-        angry: "frustrated",
-        disgusted: "neutral",
-        fearful: "neutral"
-      };
-      
-      const emotionKey = mapping[detectedEmotion] || "neutral";
-      
-      let msg = "";
-      if (selectedImage.type === 'camera') {
-        msg = `I captured an image and I look ${emotionKey}`;
-      } else {
-        msg = `I uploaded an image and I look ${emotionKey}`;
-      }
-      
-      document.getElementById('input').value = msg;
-      clearImage();
-    }
-    send();
-  }
-
-  // --- CAMERA LOGIC ---
-  let cameraStream = null;
-
-  function openCamera() {
-    const modal = document.getElementById('cameraModal');
-    const video = document.getElementById('cameraVideo');
-
-    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-      navigator.mediaDevices.getUserMedia({ video: true })
-        .then(stream => {
-          cameraStream = stream;
-          video.srcObject = stream;
-          modal.style.display = 'flex';
-        })
-        .catch(err => {
-          console.error("Camera access denied", err);
-          alert("Camera access is required");
-        });
-    } else {
-      alert("Camera not supported");
-    }
-  }
-
-  function closeCamera() {
-    const modal = document.getElementById('cameraModal');
-    const video = document.getElementById('cameraVideo');
-
-    if (cameraStream) {
-      cameraStream.getTracks().forEach(track => track.stop());
-      cameraStream = null;
-    }
-    video.srcObject = null;
-    modal.style.display = 'none';
-  }
-
-  function captureImage() {
-    const video = document.getElementById('cameraVideo');
-    const canvas = document.createElement('canvas');
-    canvas.width = video.videoWidth;
-    canvas.height = video.videoHeight;
-    const ctx = canvas.getContext('2d');
-    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-    const base64Image = canvas.toDataURL('image/png');
-    
-    const img = document.getElementById('imagePreview');
-    img.src = base64Image;
-    document.getElementById('imagePreviewContainer').style.display = 'block';
-    
-    selectedImage = { type: 'camera', data: base64Image };
-    
-    img.onload = () => detectEmotion(img);
-    closeCamera();
-  }
-
-  // --- FACE-API.JS LOGIC ---
-  let modelsLoaded = false;
-  let detectedEmotion = "neutral";
-
-  async function loadModels() {
-    if (modelsLoaded) return;
-    const MODEL_URL = 'https://justadudewhohacks.github.io/face-api.js/models';
-    try {
-      await Promise.all([
-        faceapi.nets.tinyFaceDetector.loadFromUri(MODEL_URL),
-        faceapi.nets.faceExpressionNet.loadFromUri(MODEL_URL)
-      ]);
-      modelsLoaded = true;
-      console.log("Models loaded");
-    } catch (err) {
-      console.error("Error loading models", err);
-      // Fallback: stay on neutral and show log
-    }
-  }
-
-  async function detectEmotion(imgElement) {
-    if (!modelsLoaded) await loadModels();
-    
-    const label = document.getElementById('detectedEmotionLabel');
-    label.innerText = "Detecting emotion...";
-    
-    try {
-      const detections = await faceapi.detectSingleFace(imgElement, new faceapi.TinyFaceDetectorOptions()).withFaceExpressions();
-      
-      if (detections) {
-        const expressions = detections.expressions;
-        const bestMatch = Object.keys(expressions).reduce((a, b) => expressions[a] > expressions[b] ? a : b);
+    function speakMessage(text, emotion) {
+      if (!isTTSOn) return;
+      try {
+        window.speechSynthesis.cancel(); // Stop current speech
+        const utterance = new SpeechSynthesisUtterance(text);
         
-        const displayMapping = {
-          happy: "Happy 😊",
-          sad: "Sad 😢",
-          surprised: "Surprised 😲",
-          neutral: "Neutral 😐",
-          angry: "Angry 😠",
-          disgusted: "Neutral 😐",
-          fearful: "Neutral 😐"
+        // Emotional modulation
+        if (['sad', 'anxious', 'fearful', 'tired'].includes(emotion)) {
+          utterance.rate = 0.85;
+          utterance.pitch = 0.8;
+        } else if (['happy', 'excited'].includes(emotion)) {
+          utterance.rate = 1.1;
+          utterance.pitch = 1.2;
+        } else {
+          utterance.rate = 1.0;
+          utterance.pitch = 1.0;
+        }
+        
+        window.speechSynthesis.speak(utterance);
+      } catch (err) {
+        console.error("TTS failed silently", err);
+      }
+    }
+
+    // --- MOBILE SIDEBAR ---
+    function toggleSidebar() {
+      document.getElementById('sidebar').classList.toggle('open');
+    }
+
+    // --- APP LOGIC ---
+    const user = JSON.parse(localStorage.getItem("user"));
+
+    if (user && user.name) {
+      document.getElementById("welcome").innerText = "Welcome, " + user.name.split(" ")[0];
+    }
+
+    let moodChartInstance = null;
+
+    function showSection(id) {
+      document.querySelectorAll(".section").forEach(sec => sec.classList.remove("active"));
+      document.getElementById(id).classList.add("active");
+
+      document.querySelectorAll(".nav-btn").forEach(btn => btn.classList.remove("active"));
+      const navBtn = document.getElementById("nav-" + id);
+      if (navBtn) navBtn.classList.add("active");
+
+      // Close mobile sidebar if open
+      document.getElementById('sidebar').classList.remove('open');
+
+      if (id === 'analytics') {
+        renderMoodChart();
+      }
+    }
+
+    // --- SOS LOGIC ---
+    function openSOSModal() {
+      document.getElementById('sosModal').style.display = 'flex';
+    }
+
+    function closeSOSModal() {
+      document.getElementById('sosModal').style.display = 'none';
+    }
+
+    let consecutiveNegativeEmotions = 0;
+
+    // --- MOOD TRACKING LOGIC ---
+    function trackMood(emotion) {
+      const moods = JSON.parse(localStorage.getItem('moods')) || [];
+      moods.push({
+        emotion: emotion,
+        timestamp: new Date().toISOString()
+      });
+      localStorage.setItem('moods', JSON.stringify(moods));
+
+      // Check for crisis trigger
+      const negativeEmotions = ['sad', 'tired', 'dizzy', 'angry', 'frustrated', 'anxious', 'fearful'];
+      if (negativeEmotions.includes(emotion)) {
+        consecutiveNegativeEmotions++;
+        if (consecutiveNegativeEmotions >= 3) {
+          openSOSModal();
+          consecutiveNegativeEmotions = 0; // Reset after triggering
+        }
+      } else {
+        consecutiveNegativeEmotions = 0; // Reset if they log a neutral/positive emotion
+      }
+    }
+
+    function renderMoodChart() {
+      const moods = JSON.parse(localStorage.getItem('moods')) || [];
+
+      // Emotion to Score Mapping for Line Chart
+      const emotionScores = {
+        'happy': 5, 'excited': 5,
+        'neutral': 3, 'surprised': 3,
+        'sad': 2, 'tired': 2, 'dizzy': 2,
+        'angry': 1, 'frustrated': 1, 'anxious': 1, 'fearful': 1
+      };
+
+      const labels = moods.map(m => {
+        const d = new Date(m.timestamp);
+        return `${d.getHours()}:${d.getMinutes().toString().padStart(2, '0')}`;
+      });
+
+      const dataPoints = moods.map(m => emotionScores[m.emotion] || 3);
+
+      const ctx = document.getElementById('moodChart').getContext('2d');
+
+      if (moodChartInstance) {
+        moodChartInstance.destroy();
+      }
+
+      // Determine grid line colors based on theme
+      const isDark = document.body.classList.contains('dark-theme');
+      const gridColor = isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)';
+      const textColor = isDark ? 'rgba(255, 255, 255, 0.7)' : 'rgba(0, 0, 0, 0.7)';
+
+      moodChartInstance = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: 'Mood Level',
+            data: dataPoints,
+            borderColor: '#6366f1',
+            backgroundColor: 'rgba(99, 102, 241, 0.2)',
+            borderWidth: 3,
+            tension: 0.4,
+            fill: true,
+            pointBackgroundColor: '#fff',
+            pointBorderColor: '#6366f1',
+            pointRadius: 5
+          }]
+        },
+        options: {
+          responsive: true,
+          scales: {
+            x: {
+              grid: { color: gridColor },
+              ticks: { color: textColor }
+            },
+            y: {
+              grid: { color: gridColor },
+              ticks: {
+                color: textColor,
+                stepSize: 1,
+                callback: function (value) {
+                  if (value === 5) return 'Great';
+                  if (value === 3) return 'Okay';
+                  if (value === 1) return 'Poor';
+                  return '';
+                }
+              },
+              min: 0,
+              max: 6
+            }
+          },
+          plugins: {
+            legend: { display: false }
+          }
+        }
+      });
+    }
+
+    // --- VOICE INPUT LOGIC ---
+    function startDictation() {
+      if (window.hasOwnProperty('webkitSpeechRecognition') || window.hasOwnProperty('SpeechRecognition')) {
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        const recognition = new SpeechRecognition();
+        const micBtn = document.getElementById('micBtn');
+        const inputField = document.getElementById('input');
+
+        recognition.continuous = false;
+        recognition.interimResults = false;
+        recognition.lang = "en-US";
+
+        recognition.onstart = function () {
+          micBtn.classList.add('listening');
         };
-        
-        detectedEmotion = bestMatch;
-        label.innerText = `Detected: ${displayMapping[bestMatch] || "Neutral 😐"}`;
+
+        recognition.onresult = function (e) {
+          inputField.value = e.results[0][0].transcript;
+          recognition.stop();
+          micBtn.classList.remove('listening');
+        };
+
+        recognition.onerror = function (e) {
+          console.error("Speech recognition error", e.error);
+          recognition.stop();
+          micBtn.classList.remove('listening');
+        };
+
+        recognition.onend = function () {
+          micBtn.classList.remove('listening');
+        };
+
+        recognition.start();
       } else {
-        detectedEmotion = "neutral";
-        label.innerText = "Could not detect face clearly. Fallback: Neutral 😐";
+        alert("Your browser does not support Speech Recognition.");
       }
-    } catch (err) {
-      console.error("Detection error", err);
-      detectedEmotion = "neutral";
-      label.innerText = "Detection failed. Fallback: Neutral 😐";
     }
-  }
 
-  // --- CHAT LOGIC ---
-  async function send() {
-    const input = document.getElementById("input");
-    const chat = document.getElementById("chatBox");
+    // --- IMAGE HANDLING LOGIC ---
+    let selectedImage = null;
 
-    const msg = input.value;
-    if (!msg.trim()) return;
-
-    chat.innerHTML += `<div class="message user">${msg}</div>`;
-    input.value = "";
-    chat.scrollTop = chat.scrollHeight;
-
-    try {
-      const res = await fetch("http://localhost:5000/message", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: msg })
-      });
-
-      const data = await res.json();
-
-      chat.innerHTML += `<div class="message bot">${data.reply}</div>`;
-      chat.scrollTop = chat.scrollHeight;
-
-      let history = JSON.parse(localStorage.getItem("history")) || [];
-      history.push({ user: msg, bot: data.reply });
-      localStorage.setItem("history", JSON.stringify(history));
-      
-      loadHistoryView();
-    } catch (error) {
-      chat.innerHTML += `<div class="message bot" style="color: #ef4444">Connection error...</div>`;
-      chat.scrollTop = chat.scrollHeight;
+    function previewImage(event) {
+      const file = event.target.files[0];
+      if (file) {
+        selectedImage = file;
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          const img = document.getElementById('imagePreview');
+          img.src = e.target.result;
+          document.getElementById('imagePreviewContainer').style.display = 'block';
+          img.onload = () => detectEmotion(img);
+        }
+        reader.readAsDataURL(file);
+      }
     }
-  }
 
-  async function sendEmojiMessage(emotion, emoji) {
-    const chat = document.getElementById("chatBox");
-    const hiddenMsg = `[EMOJI_KEYWORD_${emotion.toUpperCase()}] I am feeling ${emotion}.`;
-    
-    chat.innerHTML += `<div class="message user" style="font-size: 1.8em; background: transparent; box-shadow: none; padding: 5px;">${emoji}</div>`;
-    chat.scrollTop = chat.scrollHeight;
-
-    try {
-      const res = await fetch("http://localhost:5000/message", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: hiddenMsg })
-      });
-
-      const data = await res.json();
-
-      chat.innerHTML += `<div class="message bot">${data.reply}</div>`;
-      chat.scrollTop = chat.scrollHeight;
-
-      let history = JSON.parse(localStorage.getItem("history")) || [];
-      history.push({ user: emoji, bot: data.reply });
-      localStorage.setItem("history", JSON.stringify(history));
-      
-      loadHistoryView();
-    } catch (error) {
-      chat.innerHTML += `<div class="message bot" style="color: #ef4444">Connection error...</div>`;
-      chat.scrollTop = chat.scrollHeight;
+    function clearImage() {
+      selectedImage = null;
+      document.getElementById('imageInput').value = '';
+      document.getElementById('imagePreviewContainer').style.display = 'none';
+      document.getElementById('imagePreview').src = '';
+      document.getElementById('detectedEmotionLabel').innerText = 'Waiting for detection...';
+      detectedEmotion = 'neutral';
     }
-  }
 
-  // --- CARE CIRCLE LOGIC ---
-  function addContact() {
-    const input = document.getElementById("contact");
-    const number = input.value;
-    
-    if (!number.trim()) return;
+    function handleSend() {
+      if (selectedImage) {
+        const mapping = {
+          happy: "happy",
+          sad: "sad",
+          surprised: "surprised",
+          neutral: "neutral",
+          angry: "angry",
+          disgusted: "neutral",
+          fearful: "fearful"
+        };
 
-    let contacts = JSON.parse(localStorage.getItem("contacts")) || [];
-    contacts.push(number);
-    localStorage.setItem("contacts", JSON.stringify(contacts));
+        const emotionKey = mapping[detectedEmotion] || "neutral";
 
-    renderContact(number);
-    input.value = "";
-  }
+        trackMood(emotionKey);
 
-  function renderContact(number) {
-    const list = document.getElementById("contactList");
-    // Using a visual-only delete button as requested
-    list.innerHTML += `
+        let msg = "";
+        if (selectedImage.type === 'camera') {
+          msg = `I captured an image and I look ${emotionKey}`;
+        } else {
+          msg = `I uploaded an image and I look ${emotionKey}`;
+        }
+
+        document.getElementById('input').value = msg;
+        clearImage();
+      }
+      send();
+    }
+
+    // --- CAMERA LOGIC ---
+    let cameraStream = null;
+
+    function openCamera() {
+      const modal = document.getElementById('cameraModal');
+      const video = document.getElementById('cameraVideo');
+
+      if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+        navigator.mediaDevices.getUserMedia({ video: true })
+          .then(stream => {
+            cameraStream = stream;
+            video.srcObject = stream;
+            modal.style.display = 'flex';
+          })
+          .catch(err => {
+            console.error("Camera access denied", err);
+            alert("Camera access is required");
+          });
+      } else {
+        alert("Camera not supported");
+      }
+    }
+
+    function closeCamera() {
+      const modal = document.getElementById('cameraModal');
+      const video = document.getElementById('cameraVideo');
+
+      if (cameraStream) {
+        cameraStream.getTracks().forEach(track => track.stop());
+        cameraStream = null;
+      }
+      video.srcObject = null;
+      modal.style.display = 'none';
+    }
+
+    function captureImage() {
+      const video = document.getElementById('cameraVideo');
+      const canvas = document.createElement('canvas');
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+      const base64Image = canvas.toDataURL('image/png');
+
+      const img = document.getElementById('imagePreview');
+      img.src = base64Image;
+      document.getElementById('imagePreviewContainer').style.display = 'block';
+
+      selectedImage = { type: 'camera', data: base64Image };
+
+      img.onload = () => detectEmotion(img);
+      closeCamera();
+    }
+
+    // --- FACE-API.JS LOGIC ---
+    let modelsLoaded = false;
+    let detectedEmotion = "neutral";
+
+    async function loadModels() {
+      if (modelsLoaded) return;
+      const MODEL_URL = 'https://justadudewhohacks.github.io/face-api.js/models';
+      try {
+        await Promise.all([
+          faceapi.nets.tinyFaceDetector.loadFromUri(MODEL_URL),
+          faceapi.nets.faceExpressionNet.loadFromUri(MODEL_URL)
+        ]);
+        modelsLoaded = true;
+        console.log("Models loaded");
+      } catch (err) {
+        console.error("Error loading models", err);
+        // Fallback: stay on neutral and show log
+      }
+    }
+
+    async function detectEmotion(imgElement) {
+      if (!modelsLoaded) await loadModels();
+
+      const label = document.getElementById('detectedEmotionLabel');
+      label.innerText = "Detecting emotion...";
+
+      try {
+        const detections = await faceapi.detectSingleFace(imgElement, new faceapi.TinyFaceDetectorOptions()).withFaceExpressions();
+
+        if (detections) {
+          const expressions = detections.expressions;
+          const bestMatch = Object.keys(expressions).reduce((a, b) => expressions[a] > expressions[b] ? a : b);
+
+          const displayMapping = {
+            happy: "Happy 😊",
+            sad: "Sad 😢",
+            surprised: "Surprised 😲",
+            neutral: "Neutral 😐",
+            angry: "Angry 😠",
+            disgusted: "Neutral 😐",
+            fearful: "Neutral 😐"
+          };
+
+          detectedEmotion = bestMatch;
+          label.innerText = `Detected: ${displayMapping[bestMatch] || "Neutral 😐"}`;
+        } else {
+          detectedEmotion = "neutral";
+          label.innerText = "Could not detect face clearly. Fallback: Neutral 😐";
+        }
+      } catch (err) {
+        console.error("Detection error", err);
+        detectedEmotion = "neutral";
+        label.innerText = "Detection failed. Fallback: Neutral 😐";
+      }
+    }
+
+    // --- CHAT LOGIC ---
+    async function requestContent(type) {
+      const chat = document.getElementById("chatBox");
+
+      // Get last emotion
+      const moods = JSON.parse(localStorage.getItem('moods')) || [];
+      let currentEmotion = "neutral";
+      if (moods.length > 0) {
+        currentEmotion = moods[moods.length - 1].emotion;
+      }
+
+      let requestLabel = "";
+      let promptInstruction = "";
+
+      if (type === 'breathing') {
+        requestLabel = "🧘‍♀️ Breathing Exercise";
+        promptInstruction = `Provide a short, calming breathing exercise.`;
+      } else if (type === 'affirmation') {
+        requestLabel = "✨ Affirmation";
+        promptInstruction = `Provide a single, powerful positive affirmation.`;
+      } else if (type === 'journal') {
+        requestLabel = "📓 Journal Prompt";
+        promptInstruction = `Provide a single, reflective journaling prompt.`;
+      }
+
+      const hiddenMsg = `[SYSTEM_CONTENT_REQUEST] The user is currently feeling '${currentEmotion}'. ${promptInstruction} Keep it tailored to this emotion and under 3 sentences.`;
+
+      chat.innerHTML += `<div class="message user">${requestLabel}</div>`;
+      chat.scrollTop = chat.scrollHeight;
+
+      try {
+        const res = await fetch("http://localhost:5000/message", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message: hiddenMsg })
+        });
+
+        const data = await res.json();
+
+        chat.innerHTML += `<div class="message bot">${data.reply}</div>`;
+        chat.scrollTop = chat.scrollHeight;
+
+        let history = JSON.parse(localStorage.getItem("history")) || [];
+        history.push({ user: requestLabel, bot: data.reply });
+        localStorage.setItem("history", JSON.stringify(history));
+
+        speakMessage(data.reply, currentEmotion);
+        loadHistoryView();
+      } catch (error) {
+        chat.innerHTML += `<div class="message bot" style="color: #ef4444">Connection error...</div>`;
+        chat.scrollTop = chat.scrollHeight;
+      }
+    }
+
+    async function send() {
+      const input = document.getElementById("input");
+      const chat = document.getElementById("chatBox");
+
+      const msg = input.value;
+      if (!msg.trim()) return;
+
+      chat.innerHTML += `<div class="message user">${msg}</div>`;
+      input.value = "";
+      chat.scrollTop = chat.scrollHeight;
+
+      try {
+        const res = await fetch("http://localhost:5000/message", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message: msg })
+        });
+
+        const data = await res.json();
+
+        chat.innerHTML += `<div class="message bot">${data.reply}</div>`;
+        chat.scrollTop = chat.scrollHeight;
+
+        let history = JSON.parse(localStorage.getItem("history")) || [];
+        history.push({ user: msg, bot: data.reply });
+        localStorage.setItem("history", JSON.stringify(history));
+
+        // Get current emotion context
+        const moods = JSON.parse(localStorage.getItem('moods')) || [];
+        let currentEmotion = moods.length > 0 ? moods[moods.length - 1].emotion : "neutral";
+        
+        speakMessage(data.reply, currentEmotion);
+        loadHistoryView();
+      } catch (error) {
+        chat.innerHTML += `<div class="message bot" style="color: #ef4444">Connection error...</div>`;
+        chat.scrollTop = chat.scrollHeight;
+      }
+    }
+
+    async function sendEmojiMessage(emotion, emoji) {
+      trackMood(emotion);
+
+      const chat = document.getElementById("chatBox");
+      const hiddenMsg = `[EMOJI_KEYWORD_${emotion.toUpperCase()}] I am feeling ${emotion}.`;
+
+      chat.innerHTML += `<div class="message user" style="font-size: 1.8em; background: transparent; box-shadow: none; padding: 5px;">${emoji}</div>`;
+      chat.scrollTop = chat.scrollHeight;
+
+      try {
+        const res = await fetch("http://localhost:5000/message", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message: hiddenMsg })
+        });
+
+        const data = await res.json();
+
+        chat.innerHTML += `<div class="message bot">${data.reply}</div>`;
+        chat.scrollTop = chat.scrollHeight;
+
+        let history = JSON.parse(localStorage.getItem("history")) || [];
+        history.push({ user: emoji, bot: data.reply });
+        localStorage.setItem("history", JSON.stringify(history));
+
+        speakMessage(data.reply, emotion);
+        loadHistoryView();
+      } catch (error) {
+        chat.innerHTML += `<div class="message bot" style="color: #ef4444">Connection error...</div>`;
+        chat.scrollTop = chat.scrollHeight;
+      }
+    }
+
+    // --- CARE CIRCLE LOGIC ---
+    function addContact() {
+      const input = document.getElementById("contact");
+      const number = input.value;
+
+      if (!number.trim()) return;
+
+      let contacts = JSON.parse(localStorage.getItem("contacts")) || [];
+      contacts.push(number);
+      localStorage.setItem("contacts", JSON.stringify(contacts));
+
+      renderContact(number);
+      input.value = "";
+    }
+
+    function renderContact(number) {
+      const list = document.getElementById("contactList");
+      // Using a visual-only delete button as requested
+      list.innerHTML += `
       <div class="glass-card contact-item">
         <div class="contact-info">
           <div class="contact-icon">
@@ -528,42 +895,169 @@
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
         </button>
       </div>`;
-  }
+    }
 
-  // --- HISTORY LOGIC ---
-  function loadHistoryView() {
-    let history = JSON.parse(localStorage.getItem("history")) || [];
-    let box = document.getElementById("historyBox");
-    box.innerHTML = "";
-    history.forEach(h => {
-      box.innerHTML += `
+    // --- REMINDERS LOGIC ---
+    function addReminder() {
+      const taskInput = document.getElementById('reminderTask');
+      const timeInput = document.getElementById('reminderTime');
+
+      if (!taskInput.value.trim() || !timeInput.value) return;
+
+      let reminders = JSON.parse(localStorage.getItem('reminders')) || [];
+      reminders.push({
+        id: Date.now(),
+        task: taskInput.value,
+        time: timeInput.value, // "HH:MM" 24h format
+        lastTriggered: null // To avoid firing multiple times a day
+      });
+
+      localStorage.setItem('reminders', JSON.stringify(reminders));
+      taskInput.value = '';
+      timeInput.value = '';
+      loadRemindersView();
+    }
+
+    function deleteReminder(id) {
+      let reminders = JSON.parse(localStorage.getItem('reminders')) || [];
+      reminders = reminders.filter(r => r.id !== id);
+      localStorage.setItem('reminders', JSON.stringify(reminders));
+      loadRemindersView();
+    }
+
+    function loadRemindersView() {
+      let reminders = JSON.parse(localStorage.getItem('reminders')) || [];
+      let list = document.getElementById('reminderList');
+      list.innerHTML = "";
+
+      reminders.forEach(r => {
+        // format time to 12h
+        let [hours, mins] = r.time.split(':');
+        let ampm = hours >= 12 ? 'PM' : 'AM';
+        hours = hours % 12 || 12;
+        let displayTime = `${hours}:${mins} ${ampm}`;
+
+        list.innerHTML += `
+        <div class="glass-card contact-item" style="justify-content: space-between;">
+          <div style="display: flex; flex-direction: column;">
+            <div style="font-weight: 600; color: var(--text-primary);">${r.task}</div>
+            <div style="font-size: 0.9em; color: var(--text-secondary);">${displayTime}</div>
+          </div>
+          <button class="delete-btn" onclick="deleteReminder(${r.id})" title="Delete">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+          </button>
+        </div>`;
+      });
+    }
+
+    function checkReminders() {
+      let reminders = JSON.parse(localStorage.getItem('reminders')) || [];
+      if (reminders.length === 0) return;
+
+      const now = new Date();
+      const currentHours = String(now.getHours()).padStart(2, '0');
+      const currentMins = String(now.getMinutes()).padStart(2, '0');
+      const currentTimeStr = `${currentHours}:${currentMins}`;
+      const todayStr = now.toDateString();
+
+      let updated = false;
+
+      for (let i = 0; i < reminders.length; i++) {
+        let r = reminders[i];
+        if (r.time === currentTimeStr && r.lastTriggered !== todayStr) {
+          // Trigger reminder
+          triggerReminderChat(r.task);
+          r.lastTriggered = todayStr;
+          updated = true;
+        }
+      }
+
+      if (updated) {
+        localStorage.setItem('reminders', JSON.stringify(reminders));
+      }
+    }
+
+    async function triggerReminderChat(task) {
+      const chat = document.getElementById("chatBox");
+      // Send a hidden message to backend requesting a reminder generation
+      const hiddenMsg = `[SYSTEM_REMINDER_REQUEST] Please generate a short, friendly, and encouraging reminder for the user to: ${task}. Keep it under 2 sentences.`;
+
+      try {
+        const res = await fetch("http://localhost:5000/message", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message: hiddenMsg })
+        });
+
+        const data = await res.json();
+
+        chat.innerHTML += `<div class="message bot">${data.reply}</div>`;
+        chat.scrollTop = chat.scrollHeight;
+
+        let history = JSON.parse(localStorage.getItem("history")) || [];
+        history.push({ user: "SYSTEM_REMINDER", bot: data.reply });
+        localStorage.setItem("history", JSON.stringify(history));
+
+        speakMessage(data.reply, "neutral");
+        loadHistoryView();
+      } catch (error) {
+        console.error("Failed to fetch reminder from backend");
+      }
+    }
+
+    // Check every 30 seconds
+    setInterval(checkReminders, 30000);
+
+    // --- HISTORY LOGIC ---
+    function loadHistoryView() {
+      let history = JSON.parse(localStorage.getItem("history")) || [];
+      let box = document.getElementById("historyBox");
+      box.innerHTML = "";
+      history.forEach(h => {
+        box.innerHTML += `
         <div class="glass-card history-entry">
           <div class="h-user">You: ${h.user}</div>
           <div class="h-bot">${h.bot}</div>
         </div>`;
-    });
-  }
-
-  // --- LOGOUT LOGIC ---
-  function logout() {
-    localStorage.removeItem("user");
-    window.location.href = "login.html";
-  }
-
-  // --- INITIAL LOAD ---
-  window.onload = () => {
-    updateThemeIcon(); // set initial sun/moon icon
-    
-    if (user && user.photo) {
-      document.getElementById("userAvatar").src = user.photo;
+      });
     }
-    
-    let contacts = JSON.parse(localStorage.getItem("contacts")) || [];
-    contacts.forEach(c => renderContact(c));
 
-    loadHistoryView();
-  };
-</script>
+    // --- LOGOUT LOGIC ---
+    function logout() {
+      localStorage.removeItem("user");
+      window.location.href = "login.html";
+    }
+
+    // --- INITIAL LOAD ---
+    window.onload = () => {
+      updateThemeIcon(); // set initial sun/moon icon
+
+      if (user && user.photo) {
+        document.getElementById("userAvatar").src = user.photo;
+      }
+
+      let contacts = JSON.parse(localStorage.getItem("contacts")) || [];
+      contacts.forEach(c => renderContact(c));
+
+      // SEED DEFAULT REMINDERS
+      if (!localStorage.getItem('defaultRemindersSeeded')) {
+        let reminders = JSON.parse(localStorage.getItem('reminders')) || [];
+        reminders.push(
+          { id: Date.now() + 1, task: "Take morning medication", time: "08:00", lastTriggered: null },
+          { id: Date.now() + 2, task: "Drink a glass of water", time: "11:00", lastTriggered: null },
+          { id: Date.now() + 3, task: "Take a short screen break", time: "14:00", lastTriggered: null },
+          { id: Date.now() + 4, task: "Take evening medication", time: "20:00", lastTriggered: null }
+        );
+        localStorage.setItem('reminders', JSON.stringify(reminders));
+        localStorage.setItem('defaultRemindersSeeded', 'true');
+      }
+
+      loadHistoryView();
+      loadRemindersView();
+      checkReminders();
+    };
+  </script>
 
 </body>
+
 </html>
